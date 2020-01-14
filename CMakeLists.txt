@@ -10,7 +10,7 @@ include(${wxWidgets_USE_FILE})
 
 file(GLOB project_SRCS src/*.cpp)
 
-#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(membot ${project_SRCS})
 target_link_libraries(membot ${wxWidgets_LIBRARIES})
