@@ -9,7 +9,7 @@ class GraphNode; // forward declaration
 class ChatLogic; // forward declaration
 
 /*
- * TODO 2:
+ * 2:
  * Make changes to this class such that it compiles with the Rule of Five. Make
  * sure to properly allocate/deallocate memory resources on the heap and also
  * copy member data where it makes sense to you. In each of the methods (e.g.
@@ -38,6 +38,27 @@ public:
     //// STUDENT CODE
     ////
 
+    ChatBot(const ChatBot& source) // copy constructor
+    {
+        _image = source._image;
+        _currentNode = source._currentNode;
+        _rootNode = source._rootNode;
+        _chatLogic = source._chatLogic;
+    }
+
+    ChatBot& operator=(ChatBot&& source) // move assignment operator
+    {
+        std::swap(_image, source._image);
+        std::swap(_currentNode, source._currentNode);
+        std::swap(_rootNode, source._rootNode);
+        std::swap(_chatLogic, source._chatLogic);
+        return *this;
+    }
+
+    ChatBot& operator=(const ChatBot&& source) // copy assignment operator
+    {
+        return *this = ChatBot(source);
+    }
     ////
     //// EOF STUDENT CODE
 
