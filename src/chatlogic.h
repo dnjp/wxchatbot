@@ -12,7 +12,7 @@ class GraphEdge;
 class GraphNode;
 
 /*
- * TODO 3:
+ * 3:
  * Adapt the vector _nodes in a way that the instances of GraphNodes to which
  * the vector elements refer are exclusively owned by the class ChatLogic.
  *
@@ -21,15 +21,6 @@ class GraphNode;
  * reflect the changes. When passing the GraphNode instances to functions, make
  * sure to not transfer ownership and try to contain the changes ot class
  * ChatLogic where possible.
- *
- * TODO 4:
- * Change the ownership of all instances of GraphEdge in such a way that each
- * instance of GraphNode exclusively owns the outgoing GraphEdges and holds
- * non-owning references to incoming GraphEdges.
- *
- * When transferring ownership from class ChatLogic, where all instances of
- * GraphEdge are created, into instances of GraphNode, make sure to use move
- * semantics.
  *
  * TODO 5:
  * Create a local ChatBot instance on the stack at the bottom of the function
@@ -50,9 +41,8 @@ private:
     ////
 
     // data handles (owned)
-    //std::vector<GraphNode*> _nodes;
     std::vector<std::unique_ptr<GraphNode>> _nodes;
-    std::vector<GraphEdge*> _edges;
+    //std::vector<GraphEdge*> _edges;
 
     ////
     //// EOF STUDENT CODE
