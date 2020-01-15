@@ -17,7 +17,7 @@ private:
     ////
 
     /*
-   * TODO 1:
+   * 1:
    * Make chatLogic an exclusive resource to class ChatbotPanelDialog using an
    * appropriate smart pointer. Where required, make changes to the code such
    * that data structures and function parameters reflect the new structure

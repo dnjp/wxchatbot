@@ -1,6 +1,7 @@
 #ifndef CHATBOT_H_
 #define CHATBOT_H_
 
+#include <iostream>
 #include <memory>
 #include <string>
 #include <wx/bitmap.h>
@@ -37,28 +38,10 @@ public:
 
     //// STUDENT CODE
     ////
-
-    ChatBot(const ChatBot& source) // copy constructor
-    {
-        _image = source._image;
-        _currentNode = source._currentNode;
-        _rootNode = source._rootNode;
-        _chatLogic = source._chatLogic;
-    }
-
-    ChatBot& operator=(ChatBot&& source) // move assignment operator
-    {
-        std::swap(_image, source._image);
-        std::swap(_currentNode, source._currentNode);
-        std::swap(_rootNode, source._rootNode);
-        std::swap(_chatLogic, source._chatLogic);
-        return *this;
-    }
-
-    ChatBot& operator=(const ChatBot&& source) // copy assignment operator
-    {
-        return *this = ChatBot(source);
-    }
+    ChatBot& operator=(ChatBot&& source); // move assignment operator
+    ChatBot(ChatBot&& source); // move constructor
+    ChatBot(const ChatBot& source); // copy constructor
+    ChatBot& operator=(const ChatBot&& source); // copy assignment operator
     ////
     //// EOF STUDENT CODE
 
