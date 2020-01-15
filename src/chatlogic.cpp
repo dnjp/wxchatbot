@@ -118,7 +118,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](std::unique_ptr<GraphNode>& node) { return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
-                            GraphEdge* edge = new GraphEdge(id);
+                            std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
 
                             // Edge stores data handle to child/parent but does not own the object
                             edge->SetChildNode(childNode->get());
@@ -128,7 +128,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
                             // GraphNode stores data handle to Parent but does not own the object
-                            (*childNode)->AddEdgeToParentNode(edge);
+                            (*childNode)->AddEdgeToParentNode(edge.get());
 
                             // GraphNode owns child
                             (*parentNode)->AddEdgeToChildNode(std::move(edge));

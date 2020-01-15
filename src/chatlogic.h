@@ -22,7 +22,7 @@ class GraphNode;
  * sure to not transfer ownership and try to contain the changes ot class
  * ChatLogic where possible.
  *
- * TODO 5:
+ * 5:
  * Create a local ChatBot instance on the stack at the bottom of the function
  * LoadAnswerGraphFromFile. Then use move semantics to pass the ChatBot instance
  * into the root node. Make sure that ChatLogic has no ownership relation to the
