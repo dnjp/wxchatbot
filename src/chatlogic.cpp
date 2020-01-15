@@ -32,9 +32,9 @@ ChatLogic::~ChatLogic()
     ////
 
     // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it) {
-        delete *it;
-    }
+    //for (auto it = std::begin(_edges); it != std::end(_edges); ++it) {
+    //delete *it;
+    //}
 
     ////
     //// EOF STUDENT CODE
@@ -126,8 +126,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         ////
 
                         // find tokens for incoming (parent) and outgoing (child) node
-                        auto parentToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) { return pair.first == "PARENT"; });
-                        auto childToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) { return pair.first == "CHILD"; });
+                        auto parentToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) {
+                            return pair.first == "PARENT";
+                        });
+                        auto childToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) {
+                            return pair.first == "CHILD";
+                        });
 
                         if (parentToken != tokens.end() && childToken != tokens.end()) {
                             // get iterator on incoming and outgoing node via ID search
@@ -136,16 +140,19 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
                             // create new edge
                             GraphEdge* edge = new GraphEdge(id);
+
+                            // Edge stores data handle to child/parent but does not own the object
                             edge->SetChildNode(childNode->get());
                             edge->SetParentNode(parentNode->get());
-                            _edges.push_back(edge);
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
-                            // store reference in child node and parent node
+                            // GraphNode stores data handle to Parent but does not own the object
                             (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+
+                            // GraphNode owns child
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge));
                         }
 
                         ////
@@ -183,6 +190,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
+    //ChatBot cb = ChatBot();
     _chatBot->SetRootNode(rootNode);
     rootNode->MoveChatbotHere(_chatBot);
 

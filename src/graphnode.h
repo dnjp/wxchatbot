@@ -9,7 +9,7 @@
 class GraphEdge;
 
 /*
- * TODO 4:
+ * 4:
  * Change the ownership of all instances of GraphEdge in such a way that each
  * instance of GraphNode exclusively owns the outgoing GraphEdges and holds
  * non-owning references to incoming GraphEdges.
