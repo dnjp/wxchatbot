@@ -4,7 +4,7 @@
 #include <memory>
 #include <wx/wx.h>
 
-class ChatLogic; // forward declaration
+class ChatLogic;
 
 // middle part of the window containing the dialog between user and chatbot
 class ChatBotPanelDialog : public wxScrolledWindow {
@@ -13,28 +13,12 @@ private:
     wxBoxSizer* _dialogSizer;
     wxBitmap _image;
 
-    //// STUDENT CODE
-    ////
-
-    /*
-   * 1:
-   * Make chatLogic an exclusive resource to class ChatbotPanelDialog using an
-   * appropriate smart pointer. Where required, make changes to the code such
-   * that data structures and function parameters reflect the new structure
-   */
-    //ChatLogic* _chatLogic;
     std::unique_ptr<ChatLogic> _chatLogic;
 
-    ////
-    //// EOF STUDENT CODE
-
 public:
-    // constructor / destructor
     ChatBotPanelDialog(wxWindow* parent, wxWindowID id);
     ~ChatBotPanelDialog();
 
-    // getter / setter
-    //ChatLogic* GetChatLogicHandle() { return _chatLogic; }
     ChatLogic* GetChatLogicHandle() { return _chatLogic.get(); }
 
     // events
@@ -42,7 +26,6 @@ public:
     void paintNow();
     void render(wxDC& dc);
 
-    // proprietary functions
     void AddDialogItem(wxString text, bool isFromUser = true);
     void PrintChatbotResponse(std::string response);
 
@@ -57,7 +40,6 @@ private:
     wxStaticText* _chatBotTxt;
 
 public:
-    // constructor / destructor
     ChatBotPanelDialogItem(wxPanel* parent, wxString text, bool isFromUser);
 };
 
@@ -72,7 +54,6 @@ private:
     void OnEnter(wxCommandEvent& WXUNUSED(event));
 
 public:
-    // constructor / desctructor
     ChatBotFrame(const wxString& title);
 };
 
@@ -82,7 +63,6 @@ class ChatBotFrameImagePanel : public wxPanel {
     wxBitmap _image;
 
 public:
-    // constructor / desctructor
     ChatBotFrameImagePanel(wxFrame* parent);
 
     // events

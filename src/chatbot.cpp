@@ -8,7 +8,6 @@
 #include "graphedge.h"
 #include "graphnode.h"
 
-// constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
     // invalidate data handles
@@ -17,7 +16,6 @@ ChatBot::ChatBot()
     _rootNode = nullptr;
 }
 
-// constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
     std::cout << "ChatBot Constructor" << std::endl;
@@ -42,10 +40,7 @@ ChatBot::~ChatBot()
     }
 }
 
-//// STUDENT CODE
-////
-
-ChatBot::ChatBot(const ChatBot& source) // copy constructor
+ChatBot::ChatBot(const ChatBot& source)
 {
     std::cout << "ChatBot Copy Constructror" << std::endl;
 
@@ -56,7 +51,7 @@ ChatBot::ChatBot(const ChatBot& source) // copy constructor
     _chatLogic->SetChatbotHandle(this);
 }
 
-ChatBot& ChatBot::operator=(const ChatBot&& source) // copy assignment operator
+ChatBot& ChatBot::operator=(const ChatBot&& source)
 {
     std::cout << "ChatBot Copy Assignment Operator" << std::endl;
 
@@ -76,7 +71,7 @@ ChatBot& ChatBot::operator=(const ChatBot&& source) // copy assignment operator
     return *this;
 }
 
-ChatBot::ChatBot(ChatBot&& source) // move constructor
+ChatBot::ChatBot(ChatBot&& source)
 {
     std::cout << "ChatBot Move Constructror" << std::endl;
 
@@ -89,7 +84,7 @@ ChatBot::ChatBot(ChatBot&& source) // move constructor
     source._chatLogic = nullptr;
 }
 
-ChatBot& ChatBot::operator=(ChatBot&& source) // move assignment operator
+ChatBot& ChatBot::operator=(ChatBot&& source)
 {
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
 
@@ -110,9 +105,6 @@ ChatBot& ChatBot::operator=(ChatBot&& source) // move assignment operator
 
     return *this;
 }
-
-////
-//// EOF STUDENT CODE
 
 // core function
 void ChatBot::ReceiveMessageFromUser(std::string message)
