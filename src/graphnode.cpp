@@ -1,19 +1,11 @@
 #include "graphnode.h"
 #include "graphedge.h"
 
-GraphNode::GraphNode(int id)
-{
-    _id = id;
-}
+GraphNode::GraphNode(int id) { _id = id; }
 
-GraphNode::~GraphNode()
-{
-}
+GraphNode::~GraphNode() {}
 
-void GraphNode::AddToken(std::string token)
-{
-    _answers.push_back(token);
-}
+void GraphNode::AddToken(std::string token) { _answers.push_back(token); }
 
 void GraphNode::AddEdgeToParentNode(GraphEdge* edge)
 {

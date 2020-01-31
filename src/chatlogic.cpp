@@ -11,21 +11,23 @@
 #include "graphedge.h"
 #include "graphnode.h"
 
-ChatLogic::ChatLogic()
-{
-}
+ChatLogic::ChatLogic() {}
 
-ChatLogic::~ChatLogic()
-{
-}
+ChatLogic::~ChatLogic() {}
 
 template <typename T>
-void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist& tokens, T& element)
+void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist& tokens,
+    T& element)
 {
     // find all occurences for current node
     auto token = tokens.begin();
     while (true) {
-        token = std::find_if(token, tokens.end(), [&tokenID](const std::pair<std::string, std::string>& pair) { return pair.first == tokenID;; });
+        token = std::find_if(
+            token, tokens.end(),
+            [&tokenID](const std::pair<std::string, std::string>& pair) {
+                return pair.first == tokenID;
+                ;
+            });
         if (token != tokens.end()) {
             element.AddToken(token->second); // add new keyword to edge
             token++; // increment iterator to next element
@@ -70,10 +72,16 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
             }
 
             // process tokens for current line
-            auto type = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) { return pair.first == "TYPE"; });
+            auto type = std::find_if(tokens.begin(), tokens.end(),
+                [](const std::pair<std::string, std::string>& pair) {
+                    return pair.first == "TYPE";
+                });
             if (type != tokens.end()) {
                 // check for id
-                auto idToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) { return pair.first == "ID"; });
+                auto idToken = std::find_if(tokens.begin(), tokens.end(),
+                    [](const std::pair<std::string, std::string>& pair) {
+                        return pair.first == "ID";
+                    });
                 if (idToken != tokens.end()) {
                     // extract id from token
                     int id = std::stoi(idToken->second);
@@ -82,7 +90,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                     if (type->second == "NODE") {
 
                         // check if node with this ID exists already
-                        auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](std::unique_ptr<GraphNode>& node) { return node->GetID() == id; });
+                        auto newNode = std::find_if(_nodes.begin(), _nodes.end(),
+                            [&id](std::unique_ptr<GraphNode>& node) {
+                                return node->GetID() == id;
+                            });
 
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end()) {
@@ -98,29 +109,43 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                     if (type->second == "EDGE") {
 
                         // find tokens for incoming (parent) and outgoing (child) node
-                        auto parentToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) {
-                            return pair.first == "PARENT";
-                        });
-                        auto childToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string>& pair) {
-                            return pair.first == "CHILD";
-                        });
+                        auto parentToken = std::find_if(
+                            tokens.begin(), tokens.end(),
+                            [](const std::pair<std::string, std::string>& pair) {
+                                return pair.first == "PARENT";
+                            });
+                        auto childToken = std::find_if(
+                            tokens.begin(), tokens.end(),
+                            [](const std::pair<std::string, std::string>& pair) {
+                                return pair.first == "CHILD";
+                            });
 
                         if (parentToken != tokens.end() && childToken != tokens.end()) {
                             // get iterator on incoming and outgoing node via ID search
-                            auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](std::unique_ptr<GraphNode>& node) { return node->GetID() == std::stoi(parentToken->second); });
-                            auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](std::unique_ptr<GraphNode>& node) { return node->GetID() == std::stoi(childToken->second); });
+                            auto parentNode = std::find_if(
+                                _nodes.begin(), _nodes.end(),
+                                [&parentToken](std::unique_ptr<GraphNode>& node) {
+                                    return node->GetID() == std::stoi(parentToken->second);
+                                });
+                            auto childNode = std::find_if(
+                                _nodes.begin(), _nodes.end(),
+                                [&childToken](std::unique_ptr<GraphNode>& node) {
+                                    return node->GetID() == std::stoi(childToken->second);
+                                });
 
                             // create new edge
                             std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
 
-                            // Edge stores data handle to child/parent but does not own the object
+                            // Edge stores data handle to child/parent but does not own the
+                            // object
                             edge->SetChildNode(childNode->get());
                             edge->SetParentNode(parentNode->get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
-                            // GraphNode stores data handle to Parent but does not own the object
+                            // GraphNode stores data handle to Parent but does not own the
+                            // object
                             (*childNode)->AddEdgeToParentNode(edge.get());
 
                             // GraphNode owns child
@@ -167,10 +192,7 @@ void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog* panelDialog)
     _panelDialog = panelDialog;
 }
 
-void ChatLogic::SetChatbotHandle(ChatBot* chatbot)
-{
-    _chatBot = chatbot;
-}
+void ChatLogic::SetChatbotHandle(ChatBot* chatbot) { _chatBot = chatbot; }
 
 void ChatLogic::SendMessageToChatbot(std::string message)
 {

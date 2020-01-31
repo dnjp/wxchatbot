@@ -129,8 +129,8 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
             [](const EdgeDist& a, const EdgeDist& b) {
                 return a.second < b.second;
             });
-        newNode = levDists.at(0).first->GetChildNode(); // after sorting the best edge is
-            // at first position
+        newNode = levDists.at(0).first->GetChildNode(); // after sorting the best
+            // edge is at first position
     } else {
         // go back to root node
         newNode = _rootNode;

@@ -37,8 +37,11 @@ ChatBotFrame::ChatBotFrame(const wxString& title)
 
     // create text control for user input
     int idTextXtrl = 1;
-    _userTextCtrl = new wxTextCtrl(ctrlPanel, idTextXtrl, "", wxDefaultPosition, wxSize(width, 50), wxTE_PROCESS_ENTER, wxDefaultValidator, wxTextCtrlNameStr);
-    Connect(idTextXtrl, wxEVT_TEXT_ENTER, wxCommandEventHandler(ChatBotFrame::OnEnter));
+    _userTextCtrl = new wxTextCtrl(ctrlPanel, idTextXtrl, "", wxDefaultPosition,
+        wxSize(width, 50), wxTE_PROCESS_ENTER,
+        wxDefaultValidator, wxTextCtrlNameStr);
+    Connect(idTextXtrl, wxEVT_TEXT_ENTER,
+        wxCommandEventHandler(ChatBotFrame::OnEnter));
 
     // create vertical sizer for panel alignment and add panels
     wxBoxSizer* vertBoxSizer = new wxBoxSizer(wxVERTICAL);
@@ -63,7 +66,8 @@ void ChatBotFrame::OnEnter(wxCommandEvent& WXUNUSED(event))
     _userTextCtrl->Clear();
 
     // send user text to chatbot
-    _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
+    _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(
+        std::string(userText.mb_str()));
 }
 
 BEGIN_EVENT_TABLE(ChatBotFrameImagePanel, wxPanel)
@@ -125,15 +129,14 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow* parent, wxWindowID id)
     _chatLogic->LoadAnswerGraphFromFile(dataPath + "src/answergraph.txt");
 }
 
-ChatBotPanelDialog::~ChatBotPanelDialog()
-{
-}
+ChatBotPanelDialog::~ChatBotPanelDialog() {}
 
 void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser)
 {
     // add a single dialog element to the sizer
     ChatBotPanelDialogItem* item = new ChatBotPanelDialogItem(this, text, isFromUser);
-    _dialogSizer->Add(item, 0, wxALL | (isFromUser == true ? wxALIGN_LEFT : wxALIGN_RIGHT), 8);
+    _dialogSizer->Add(
+        item, 0, wxALL | (isFromUser == true ? wxALIGN_LEFT : wxALIGN_RIGHT), 8);
     _dialogSizer->Layout();
 
     // make scrollbar show up
@@ -179,16 +182,26 @@ void ChatBotPanelDialog::render(wxDC& dc)
     dc.DrawBitmap(_image, 0, 0, false);
 }
 
-ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel* parent, wxString text, bool isFromUser)
+ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel* parent, wxString text,
+    bool isFromUser)
     : wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_NONE)
 {
     // retrieve image from chatbot
-    wxBitmap* bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle()->GetImageFromChatbot();
+    wxBitmap* bitmap = isFromUser == true ? nullptr
+                                          : ((ChatBotPanelDialog*)parent)
+                                                ->GetChatLogicHandle()
+                                                ->GetImageFromChatbot();
 
     // create image and text
-    _chatBotImg = new wxStaticBitmap(this, wxID_ANY, (isFromUser ? wxBitmap(imgBasePath + "user.png", wxBITMAP_TYPE_PNG) : *bitmap), wxPoint(-1, -1), wxSize(-1, -1));
-    _chatBotTxt = new wxStaticText(this, wxID_ANY, text, wxPoint(-1, -1), wxSize(150, -1), wxALIGN_CENTRE | wxBORDER_NONE);
-    _chatBotTxt->SetForegroundColour(isFromUser == true ? wxColor(*wxBLACK) : wxColor(*wxWHITE));
+    _chatBotImg = new wxStaticBitmap(
+        this, wxID_ANY,
+        (isFromUser ? wxBitmap(imgBasePath + "user.png", wxBITMAP_TYPE_PNG)
+                    : *bitmap),
+        wxPoint(-1, -1), wxSize(-1, -1));
+    _chatBotTxt = new wxStaticText(this, wxID_ANY, text, wxPoint(-1, -1), wxSize(150, -1),
+        wxALIGN_CENTRE | wxBORDER_NONE);
+    _chatBotTxt->SetForegroundColour(isFromUser == true ? wxColor(*wxBLACK)
+                                                        : wxColor(*wxWHITE));
 
     // create sizer and add elements
     wxBoxSizer* horzBoxSizer = new wxBoxSizer(wxHORIZONTAL);
