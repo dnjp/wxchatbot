@@ -1,11 +1,9 @@
 # Chatbot
 
-<img src="chatbot.png" width="601" height="411" />
-
 ## Dependencies for Running Locally
 
 - cmake >= 3.11
-- make >= 4.1 (Linux, Mac), 3.81 (Windows)
+- make >= 4.1
 - gcc/g++ >= 5.4
 - wxWidgets >= 3.0
 
